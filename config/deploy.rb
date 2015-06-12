@@ -36,18 +36,16 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 set :keep_releases, 5
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.2.1p85'
+set :rbenv_ruby, '2.2.1'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
 namespace :deploy do
-  # namespace :setup do
-  #   desc 'change permissions of /var/www/my_site'
-  #   task :fix_permissions do
-  #     sudo "chown -R #{user}.#{user} #{deploy_to}"
-  #   end
-  # end
-  # after 'deploy:setup', 'setup:fix_permissions'
+  desc 'change permissions of /var/www/my_site'
+  task :fix_permissions do
+    sudo "chown -R #{user}.#{user} #{deploy_to}"
+  end
+  before :deploy, 'deploy:fix_permissions'
   # desc 'Start application'
   # task :start, :roles => :app do
   #   run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{rails_env}.rb -E #{rails_env} -D"

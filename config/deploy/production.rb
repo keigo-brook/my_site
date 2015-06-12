@@ -2,7 +2,6 @@
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
-set :ssh_options, port: '3843'
 server 'brookbach.com', user: 'keigo', roles: %w{app db web}, my_property: :my_value
 
 
@@ -40,7 +39,8 @@ server 'brookbach.com', user: 'keigo', roles: %w{app db web}, my_property: :my_v
 # Global options
 # --------------
  set :ssh_options, {
-   keys: %w(/home/keigo/.ssh/id_rsa),
+   keys: %w(/Users/KeigoOgawa/.ssh/id_rsa),
+   port: '3843',
    forward_agent: false,
    auth_methods: %w(publickey)
  }
