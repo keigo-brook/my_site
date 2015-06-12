@@ -2,7 +2,7 @@
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
-
+set :ssh_options, port: '3843'
 server 'brookbach.com', user: 'keigo', roles: %w{app db web}, my_property: :my_value
 
 
