@@ -9,7 +9,7 @@ listen "#{app_path}/current/tmp/unicorn.sock", backlog: 64
 stderr_path "#{app_path}/current/log/unicorn.log"
 stdout_path "#{app_path}/current/log/unicorn.log"
 
-worker_processes Integer(ENV['WEB_CONCURRENCY'])
+worker_processes 2
 timeout 30
 preload_app true
 
