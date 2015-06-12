@@ -4,6 +4,7 @@
 # You can define all roles on a single server, or split them:
 server 'brookbach.com', user: 'keigo', roles: %w{app db web}, my_property: :my_value
 
+set :unicorn_rack_env, 'production'
 
 
 # role-based syntax

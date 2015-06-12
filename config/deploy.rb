@@ -41,10 +41,14 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
 namespace :deploy do
-  # desc 'Start application'
-  # task :start, :roles => :app do
-  #   run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{rails_env}.rb -E #{rails_env} -D"
-  # end
+  desc 'Start application'
+  task :start do
+    run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{rails_env}.rb -E #{rails_env} -D"
+  end
+
+  task :stop do
+    run "kill -QUIT 'cat #{current_path}/tmp/pids/unicorn.pid'"
+  end
 
   desc 'Restart application'
   task :restart do
