@@ -1,6 +1,10 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
+set :user, 'keigo'
+ssh_options[:port] = '3843'
+ssh_options[:forward_agent] = true
+
 set :application, 'my_site'
 set :repo_url, 'git@github.com:keigo-brook/my_site.git'
 set :branch, 'master'
@@ -41,7 +45,20 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
 namespace :deploy do
+  namespace :setup do
+    desc 'change permissions of /var/www/my_site'
+    task :fix_permissions do
+      sudo "chown -R #{user}.#{user} #{deploy_to}"
+    end
+  end
+  after 'deploy:setup', 'setup:fix_permissions'
+
   namespace :deploy do
+    desc 'Start application'
+    task :start, :roles => :app do
+      run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{rails_env}.rb -E #{rails_env} -D"
+    end
+
     desc 'Restart application'
     task :restart do
       invoke 'unicorn:restart'
