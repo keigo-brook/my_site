@@ -1,5 +1,5 @@
 # paths
-app_path = 'var/www/my_site'
+app_path = '/var/www/my_site'
 working_directory "#{app_path}/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
 

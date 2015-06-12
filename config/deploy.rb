@@ -43,7 +43,7 @@ set :rbenv_roles, :all
 namespace :deploy do
   desc 'Start application'
   task :start do
-    run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{rails_env}.rb -E #{rails_env} -D"
+    run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{ENV['RAILS_ENV']}.rb -E #{ENV['RAILS_ENV']} -D"
   end
 
   task :stop do
