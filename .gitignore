@@ -21,3 +21,4 @@ html
 
 config/database.yml
 config/secrets.yml
+config/deploy/
