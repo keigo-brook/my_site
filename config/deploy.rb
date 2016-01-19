@@ -40,10 +40,6 @@ set :rbenv_ruby, '2.2.1'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
-before_fork do |server, worker|
-  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', ENV['RAILS_ROOT'])
-end
-
 namespace :deploy do
 
   desc 'Upload database.yml'
