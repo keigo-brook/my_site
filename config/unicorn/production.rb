@@ -13,7 +13,7 @@ worker_processes 2
 timeout 30
 preload_app true
 
-before_exec do |server, worker|
+before_exec do |worker|
   ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', ENV['RAILS_ROOT'])
 end
 
