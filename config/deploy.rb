@@ -40,19 +40,41 @@ set :rbenv_ruby, '2.2.1'
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
 
+before_fork do |server, worker|
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', ENV['RAILS_ROOT'])
+end
+
 namespace :deploy do
-  desc 'Start application'
-  task :start do
-    run "cd #{current_path}; bundle exec unicorn_rails -c config/unicorn/#{ENV['RAILS_ENV']}.rb -E #{ENV['RAILS_ENV']} -D"
+
+  desc 'Upload database.yml'
+  task :upload do
+    on roles(:app) do |host|
+      if test "[ ! -d #{shared_path}/config ]"
+        execute "mkdir -p #{shared_path}/config"
+      end
+      upload!('config/database.yml', "#{shared_path}/config/database.yml")
+    end
   end
 
-  task :stop do
-    run "kill -QUIT 'cat #{current_path}/tmp/pids/unicorn.pid'"
+  desc 'Create Database'
+  task :db_create do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:create'
+        end
+      end
+    end
   end
 
   desc 'Restart application'
   task :restart do
-    invoke 'unicorn:restart'
+    on roles(:app) do
+      invoke 'unicorn:restart'
+    end
   end
+
+  before :starting, :upload
+  after :publishing, :restart
 
 end
