@@ -1,13 +1,18 @@
 # paths
 app_path = '/var/www/my_site'
-working_directory "#{app_path}/current"
+shared_path = "/var/www/my_site/shared/"
+current_path = "/var/www/my_site/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
 
-# listen
-listen "#{app_path}/current/tmp/unicorn.sock", backlog: 64
+listen File.expand_path('tmp/sockets/unicorn.sock', shared_path)
+pid File.expand_path('tmp/pids/unicorn.pid', shared_path)
+
+working_directory current_path
 
 stderr_path "#{app_path}/current/log/unicorn.log"
 stdout_path "#{app_path}/current/log/unicorn.log"
+
+
 
 worker_processes 2
 timeout 30
