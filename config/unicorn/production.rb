@@ -4,8 +4,8 @@ shared_path = "/var/www/my_site/shared/"
 current_path = "/var/www/my_site/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
 
-listen File.expand_path('tmp/sockets/unicorn.sock', shared_path)
-pid File.expand_path('tmp/pids/unicorn.pid', shared_path)
+listen File.expand_path('tmp/sockets/unicorn.sock', current_path)
+pid File.expand_path('tmp/pids/unicorn.pid', current_path)
 
 working_directory current_path
 
@@ -18,11 +18,8 @@ worker_processes 2
 timeout 30
 preload_app true
 
-before_exec do |worker|
-  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', current_path)
-end
-
 before_fork do |server, worker|
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', current_path)
   Signal.trap 'TERM' do
     puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
     Process.kill 'QUIT', Process.pid
