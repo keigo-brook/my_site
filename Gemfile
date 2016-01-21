@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
+gem 'google-analytics-rails'
 
 group :production, :staging do
   gem 'unicorn'
