@@ -19,7 +19,7 @@ timeout 30
 preload_app true
 
 before_exec do |worker|
-  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', ENV['RAILS_ROOT'])
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('Gemfile', current_path)
 end
 
 before_fork do |server, worker|
