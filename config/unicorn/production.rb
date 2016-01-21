@@ -4,8 +4,8 @@ shared_path = "/var/www/my_site/shared/"
 current_path = "/var/www/my_site/current"
 pid "#{app_path}/current/tmp/pids/unicorn.pid"
 
-listen File.expand_path('tmp/sockets/unicorn.sock', shared_path)
-pid File.expand_path('tmp/pids/unicorn.pid', shared_path)
+listen File.expand_path('tmp/sockets/unicorn.sock', current_path)
+pid File.expand_path('tmp/pids/unicorn.pid', current_path)
 
 working_directory current_path
 
